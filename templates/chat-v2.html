@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #copy-button {
+            margin-top: 10px;
+        }
+        .quick-buttons {
+            margin-top: 10px;
+        }
+        .quick-buttons button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat Bot</h1>
+
+<form action="/ask-v2" method="post">
+    <input type="text" id="question" name="question" placeholder="请输入您的问题">
+    <button type="submit">发送</button>
+
+    <div class="quick-buttons">
+        <h3>快捷问题</h3>
+        <button onclick="appendQuestion('初学者')">初学者</button>
+        <button onclick="appendQuestion('有一定基础')">有一定基础</button>
+        <button onclick="appendQuestion('深入学习')">深入学习</button>
+    </div>
+</form>
+
+<div>
+    <h2>回复：</h2>
+    <ul id="response-list">
+        <!-- 遍历分段显示的回复 -->
+        <li th:each="msg : ${responses}" th:text="${msg}"></li>
+    </ul>
+    <button onclick="window.location.href='/index.html'">home</button>
+</div>
+
+<div th:if="${error}">
+    <p style="color: red;" th:text="${error}"></p>
+</div>
+
+<script>
+    // 追加问题函数
+    function appendQuestion(text) {
+        const questionInput = document.getElementById('question');
+        const currentText = questionInput.value.trim();
+        if (currentText) {
+            questionInput.value = currentText + ' ' + text;
+        } else {
+            questionInput.value = text;
+        }
+    }
+
+
+</script>
+</body>
+</html>

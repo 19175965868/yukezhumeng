@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #copy-button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat Bot</h1>
+
+<form action="/ask" method="post">
+    <label for="question">请输入您的问题：</label>
+    <input type="text" id="question" name="question" required>
+    <button type="submit">发送</button>
+    <button onclick="window.location.href='/m2ppt.html'">复制后去生成ppt</button>
+</form>
+
+<div>
+    <h2>回复：</h2>
+    <ul id="response-list">
+        <!-- 遍历分段显示的回复 -->
+        <li th:each="msg : ${responses}" th:text="${msg}"></li>
+    </ul>
+    <button id="copy-button">复制内容</button>
+</div>
+
+<div th:if="${error}">
+    <p style="color: red;" th:text="${error}"></p>
+</div>
+
+<script>
+    // 复制内容函数
+    function copyResponse() {
+        const responseList = document.getElementById('response-list');
+        const items = responseList.getElementsByTagName('li');
+        let responseText = '';
+
+        for (let i = 0; i < items.length; i++) {
+            responseText += items[i].textContent + '\n';
+        }
+
+        navigator.clipboard.writeText(responseText.trim()).then(() => {
+            alert('内容已复制到剪贴板！');
+        }).catch(err => {
+            console.error('无法复制内容: ', err);
+            alert('无法复制内容，请手动复制');
+        });
+    }
+
+    // 绑定复制按钮事件
+    document.getElementById('copy-button').addEventListener('click', copyResponse);
+</script>
+</body>
+</html>

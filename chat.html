@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coze Chat</title>
+</head>
+<body>
+<h1>与 Coze 聊天</h1>
+
+<form action="/chat" method="post">
+    <label for="query">请输入你的问题：</label>
+    <input type="text" id="query" name="query" required>
+
+    <label for="difficulty">选择难度：</label>
+    <select id="difficulty" name="difficulty">
+        <option value="beginner">初学者</option>
+        <option value="basic">基础</option>
+        <option value="intermediate">进阶</option>
+        <option value="advanced">深入</option>
+    </select>
+
+    <button type="submit">提交</button>
+</form>
+
+<h2>Coze 回复：</h2>
+<div th:text="${response}">等待回复...</div>
+</body>
+</html>
