@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberSign Pro | 高级用户注册</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #0a0a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image:
+              linear-gradient(45deg, rgba(20, 30, 50, 0.8) 0%, rgba(10, 15, 25, 0.9) 100%),
+              radial-gradient(circle at 75% 25%, rgba(0, 150, 255, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 25% 75%, rgba(255, 60, 140, 0.15) 0%, transparent 40%);
+    }
+
+    .cyber-card {
+      background: rgba(15, 20, 30, 0.95);
+      padding: 3rem 4rem;
+      border-radius: 20px;
+      border: 1px solid rgba(100, 125, 255, 0.2);
+      box-shadow: 0 0 80px rgba(0, 150, 255, 0.3);
+      width: 720px;
+      position: relative;
+      transition: transform 0.3s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .cyber-card:hover {
+      transform: translateY(-5px) rotateX(3deg) rotateY(-2deg);
+    }
+
+    .cyber-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .cyber-title {
+      color: #fff;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 25px rgba(0, 150, 255, 0.6);
+      margin-bottom: 0.5rem;
+    }
+
+    .cyber-subtitle {
+      color: rgba(200, 220, 255, 0.8);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .cyber-input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .cyber-input {
+      width: 100%;
+      padding: 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(100, 125, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .cyber-input:focus {
+      outline: none;
+      border-color: #0096ff;
+      box-shadow: 0 0 25px rgba(0, 150, 255, 0.3);
+      background: rgba(0, 150, 255, 0.05);
+    }
+
+    .cyber-input::placeholder {
+      color: rgba(200, 220, 255, 0.4);
+    }
+
+    .cyber-button {
+      width: 100%;
+      padding: 1.2rem;
+      background: linear-gradient(135deg, #0096ff 0%, #7d2ae8 100%);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+    }
+
+    .cyber-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 150, 255, 0.4);
+    }
+
+    .cyber-effects {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 20px;
+      z-index: -1;
+    }
+
+    .cyber-effects::before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: conic-gradient(
+              from 180deg at 50% 50%,
+              #0096ff 0deg,
+              #ff3c8c 120deg,
+              #7d2ae8 240deg,
+              #0096ff 360deg
+      );
+      animation: rotate 20s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .response-message {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .success {
+      background: rgba(0, 200, 80, 0.15);
+      border: 2px solid #00c853;
+      box-shadow: 0 0 15px rgba(0, 200, 80, 0.2);
+    }
+    .error {
+      background: rgba(255, 60, 60, 0.15);
+      border: 2px solid #ff3860;
+      box-shadow: 0 0 15px rgba(255, 60, 60, 0.2);
+    }
+
+    .password-strength {
+      margin-top: 0.5rem;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .strength-bar {
+      height: 100%;
+      width: 0;
+      background: #0096ff;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+<div class="cyber-card">
+  <div class="cyber-effects"></div>
+  <div class="cyber-header">
+    <h1 class="cyber-title">CYBER SIGN PRO</h1>
+    <p class="cyber-subtitle">Secure User Registration System</p >
+  </div>
+
+  <form id="registerForm">
+    <div class="form-grid">
+      <div class="cyber-input-group">
+        <input type="text" class="cyber-input" id="fname" placeholder="First Name" required>
+      </div>
+      <div class="cyber-input-group">
+        <input type="text" class="cyber-input" id="lname" placeholder="Last Name" required>
+      </div>
+    </div>
+
+    <div class="cyber-input-group">
+      <input type="email" class="cyber-input" id="email" placeholder="Professional Email" required>
+    </div>
+
+    <div class="cyber-input-group">
+      <input type="password" class="cyber-input" id="password" placeholder="Secure Password" required>
+      <div class="password-strength">
+        <div class="strength-bar"></div>
+      </div>
+    </div>
+
+    <button type="submit" class="cyber-button">立即注册</button>
+    <!-- 在注册按钮下方添加带样式的登录链接 -->
+<div style="text-align: center; margin-top: 1.5rem;">
+    <span style="color: rgba(200,200,200,0.8);">已有账号？</span>
+    <a href="login.html"
+       style="color: #888;
+              text-decoration: none;
+              font-weight: bold;
+              margin-left: 0.5rem;
+              transition: all 0.3s ease;
+              border-bottom: 1px solid transparent;">
+        立即登录
+    </a>
+</div>
+
+  </form>
+
+  <div id="responseMessage" class="response-message"></div>
+</div>
+
+<script>
+  // 密码强度实时检测
+  document.getElementById('password').addEventListener('input', function(e) {
+    const strengthBar = document.querySelector('.strength-bar');
+    const password = e.target.value;
+    let strength = 0;
+
+    if (password.length >= 8) strength += 25;
+    if (password.match(/[A-Z]/)) strength += 25;
+    if (password.match(/[0-9]/)) strength += 25;
+    if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+
+    strengthBar.style.width = strength + '%';
+    strengthBar.style.backgroundColor = strength < 50 ? '#ff3860' :
+            strength < 75 ? '#ff9f43' : '#00c853';
+  });
+
+  // 表单提交处理
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = e.target.querySelector('button');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<div class="loader"></div>';
+
+    const userData = {
+      fname: document.getElementById('fname').value,
+      lname: document.getElementById('lname').value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
+    };
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.text();
+      const responseDiv = document.getElementById('responseMessage');
+
+      responseDiv.style.display = 'block';
+      responseDiv.className = `response-message ${response.ok ? 'success' : 'error'}`;
+      responseDiv.textContent = data;
+
+      if (response.ok) {
+        document.getElementById('registerForm').reset();
+        document.querySelector('.strength-bar').style.width = '0';
+        setTimeout(() => {
+          responseDiv.style.display = 'none';
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      responseDiv.textContent = '网络连接异常，请检查后重试';
+      responseDiv.className = 'response-message error';
+      responseDiv.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '立即注册';
+    }
+  });
+
+  // 添加键盘快捷键支持
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.target.matches('input')) {
+      document.getElementById('registerForm').requestSubmit();
+    }
+  });
+</script>
+</body>
+</html>
